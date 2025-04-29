@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,45 +88,36 @@
   <header>
     <img id="logo" src="logo-ray.png" alt="Logo Ray Photographe">
     <h1>RAY PHOTOGRAPHE</h1>
-  </header>
-
-  <p class="description">
+  </header>  <p class="description">
     Bienvenue sur ma page concours.<br>
     Participez et courez la chance de remporter une séance photo de votre choix 100% gratuite ou la chance de figurer sur ma page officielle en tant que modèle d'un jour.<br>
     <b>Participation sans photo = 1 chance, avec 1 photo = 2 chances.</b><br>
     Aucune limite de participation!
-  </p>
-
-  <div class="ticket">
+  </p>  <div class="ticket">
     <h2>BILLET DE PARTICIPATION</h2>
     <form id="participation-form">
       <label>Prénom:</label>
-      <input type="text" id="prenom" name="prenom" required>
+      <input type="text" name="prenom" required><label>Nom:</label>
+  <input type="text" name="nom" required>
 
-      <label>Nom:</label>
-      <input type="text" id="nom" name="nom" required>
+  <h3>I.D COMPTE</h3>
+  <label>Courriel:</label>
+  <input type="email" name="email" required>
 
-      <h3>I.D COMPTE</h3>
-      <label>Courriel:</label>
-      <input type="email" id="email" name="email" required>
+  <label>Mot de passe:</label>
+  <input type="password" name="password" required>
+  <div class="toggle-password" onclick="togglePassword()">Afficher / Cacher le mot de passe</div>
 
-      <label>Mot de passe:</label>
-      <input type="password" id="password" name="password" required>
-      <div class="toggle-password" onclick="togglePassword()">Afficher / Cacher le mot de passe</div>
+  <button type="submit" id="submit-btn">PARTICIPER</button>
+</form>
 
-      <button type="submit" id="submit-btn">PARTICIPER</button>
-    </form>
-  </div>
-
-  <img class="instagram-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" onclick="window.open('https://www.instagram.com/ray_photographe?igsh=d3o5a3lhdXN5aXIx', '_blank')">
-
-  <script>
+  </div>  <img class="instagram-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" onclick="window.open('https://www.instagram.com/ray_photographe?igsh=d3o5a3lhdXN5aXIx', '_blank')">  <script>
     (function() {
       emailjs.init('F9gDCMp5AHRCTW_qp');
     })();
 
     function togglePassword() {
-      var passwordField = document.getElementById('password');
+      var passwordField = document.querySelector('input[name="password"]');
       if (passwordField.type === "password") {
         passwordField.type = "text";
       } else {
@@ -139,33 +129,26 @@
     const submitBtn = document.getElementById('submit-btn');
 
     form.addEventListener('input', () => {
-      const filled = [...form.elements].every(input => input.type === "submit" || input.value);
+      const filled = [...form.elements].every(input => input.type === "submit" || input.value.trim() !== '');
       submitBtn.style.display = filled ? "block" : "none";
     });
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+
       const captcha = prompt("Écrivez la somme de 3 + 4 :");
-      if (captcha != "7") {
+      if (captcha !== "7") {
         alert("Captcha incorrect. Veuillez réessayer.");
         return;
       }
 
-      const templateParams = {
-        prenom: document.getElementById('prenom').value,
-        nom: document.getElementById('nom').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value
-      };
-
-      emailjs.send('service_tweftld', 'template_ghgxrzp', templateParams)
+      emailjs.sendForm('service_tweftld', 'template_ghgxrzp', this)
       .then(() => {
-          alert("Merci pour votre participation! Les gagnants vous seront divulgués par courriel. Vous pouvez participer une autre fois avec une autre photo.");
-          window.location.href = "https://www.instagram.com/ray_photographe?igsh=d3o5a3lhdXN5aXIx";
+        alert("Merci pour votre participation! Les gagnants seront contactés par courriel. Vous pouvez participer une autre fois avec une autre photo.");
+        window.location.href = "https://www.instagram.com/ray_photographe?igsh=d3o5a3lhdXN5aXIx";
       }, (error) => {
-          alert("Erreur lors de l'envoi : " + error.text);
+        alert("Erreur lors de l'envoi : " + error.text);
       });
     });
-  </script>
-</body>
+  </script></body>
 </html>
